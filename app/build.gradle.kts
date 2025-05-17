@@ -110,6 +110,8 @@ dependencies {
 
     // Coil
     implementation(libs.coil)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.svg)
 
     // Datastore
     implementation(libs.androidx.datastore.preferences)
