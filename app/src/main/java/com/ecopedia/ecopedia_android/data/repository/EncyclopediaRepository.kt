@@ -70,7 +70,7 @@ class EncyclopediaRepository @Inject constructor(
         NetworkCallback(
             service.creatureSave(
                 latitude = FormDataUtil.getTextBody("latitude", latitude),
-                longitude = FormDataUtil.getTextBody("lognitude", lognitude),
+                longitude = FormDataUtil.getTextBody("longitude", lognitude),
                 file = FormDataUtil.getImageBody(
                     file, "file", "${System.currentTimeMillis()}"
                 ),
