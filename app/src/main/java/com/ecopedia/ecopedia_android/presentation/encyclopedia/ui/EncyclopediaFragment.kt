@@ -16,13 +16,10 @@ class EncyclopediaFragment :
         R.layout.fragment_encyclopedia
     ) {
 
-    lateinit var binding: FragmentEncyclopediaBinding
     private val tabInfo: ArrayList<String> = arrayListOf("전체", "식물", "동물", "곤충")
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding = FragmentEncyclopediaBinding.inflate(layoutInflater)
 
         val encyclopediaAdapter = EncyclopediaVPAdapter(this)
         binding.encyclopediaContentVp.apply {

@@ -48,10 +48,10 @@ class GridFragment : Fragment() {
         // 예: 전체, 동물, 식물, 곤충 등
         // type 값에 따라 API 요청을 다르게 처리
         when (type) {
-            "all" -> {/* 전체 아이템 불러오기 */}
-            "animal" -> {/* 동물만 */}
-            "plant" -> {/* 식물만 */}
-            "insect" -> {/* 곤충만 */}
+            "all" -> {}
+            "animals" -> {/* 동물만 */}
+            "plants" -> {/* 식물만 */}
+            "insects" -> {/* 곤충만 */}
         }
     }
 }

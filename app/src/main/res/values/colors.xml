@@ -11,6 +11,7 @@
     <color name="lightGray60">#FFBEBEBE</color>
     <color name="lightGray90">#FF999999</color>
 
+    <color name="gray30">#ff9D9D9D</color>
     <color name="gray60">#FF666666</color>
     <color name="gray90">#FF373737</color>
     <color name="black">#FF000000</color>

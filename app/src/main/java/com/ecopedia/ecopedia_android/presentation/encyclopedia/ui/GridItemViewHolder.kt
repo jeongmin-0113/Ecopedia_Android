@@ -8,8 +8,8 @@ import com.ecopedia.ecopedia_android.R
 
 class GridItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    var itemCardImage: ImageView
-    var itemCardTitle: TextView
+    private val itemCardImage: ImageView
+    private val itemCardTitle: TextView
 
     init {
         itemCardImage = itemView.findViewById(R.id.item_card_iv)
@@ -17,7 +17,7 @@ class GridItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun onBind(data: GridData) {
-        itemCardImage.setImageResource(data.image)
-        itemCardTitle.setText(data.title)
+        itemCardImage.setImageResource(data.imageUrl)
+        itemCardTitle.setText(data.creatureName)
     }
 }

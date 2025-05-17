@@ -9,9 +9,9 @@ class EncyclopediaVPAdapter(fragment: Fragment): FragmentStateAdapter(fragment) 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> GridFragment.newInstance("all")
-            1 -> GridFragment.newInstance("animal")
-            2 -> GridFragment.newInstance("plant")
-            3 -> GridFragment.newInstance("insect")
+            1 -> GridFragment.newInstance("animals")
+            2 -> GridFragment.newInstance("plants")
+            3 -> GridFragment.newInstance("insects")
             else -> throw IllegalArgumentException("Invalid tab position")
         }
     }
