@@ -4,6 +4,7 @@ package com.ecopedia.ecopedia_android.di
 import com.ecopedia.ecopedia_android.data.source.local.TokenManager
 import com.ecopedia.ecopedia_android.data.source.remote.RequestInterceptor
 import com.ecopedia.ecopedia_android.data.source.remote.SampleService
+import com.ecopedia.ecopedia_android.data.source.remote.UserService
 import com.ecopedia.ecopedia_android.utils.Constant.BASE_URL
 import com.ecopedia.ecopedia_android.utils.Constant.CONNECT_TIME_OUT
 import com.ecopedia.ecopedia_android.utils.Constant.READ_TIME_OUT
@@ -16,6 +17,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -49,5 +51,11 @@ object AppModule {
     @Provides
     fun provideAlarmApiService(retrofit: Retrofit): SampleService {
         return retrofit.create(SampleService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUserService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 }

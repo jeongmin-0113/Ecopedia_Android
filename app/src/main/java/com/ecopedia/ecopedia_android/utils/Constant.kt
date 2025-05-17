@@ -5,7 +5,7 @@ object Constant {
     const val X_REFRESH_TOKEN = "X_REFRESH_TOKEN"
     const val TOKEN_HEADER = "Authorization"
 
-    const val BASE_URL = "http://.."
+    const val BASE_URL = "https://ecopediaspring-production.up.railway.app"
 
     const val READ_TIME_OUT = 8000L
     const val CONNECT_TIME_OUT = 8000L
