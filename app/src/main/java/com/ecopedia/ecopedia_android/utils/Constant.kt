@@ -7,6 +7,6 @@ object Constant {
     const val TOKEN_PREFERENCE_STORE = "token_preference_store"
     const val BASE_URL = "https://ecopediaspring-production.up.railway.app"
 
-    const val READ_TIME_OUT = 8000L
-    const val CONNECT_TIME_OUT = 8000L
+    const val READ_TIME_OUT = 15000L
+    const val CONNECT_TIME_OUT = 15000L
 }
