@@ -9,6 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,7 +49,12 @@ class HomeViewModel @Inject constructor(private val encyclopediaRepository: Ency
     fun onCameraImageCaptured(bitmap: Bitmap) {
         viewModelScope.launch {
             try {
-                _cameraResult.value = CameraResult.Success(bitmap)
+                val result = encyclopediaRepository.creatureValidation(bitmap, "37.3595704", "127.105399").firstOrNull()
+                if (result == true) {
+                    _cameraResult.value = CameraResult.Success(bitmap)
+                } else {
+                    _cameraResult.value = CameraResult.Error("error")
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 _cameraResult.value = CameraResult.Error(e.message)
