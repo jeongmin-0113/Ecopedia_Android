@@ -27,6 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/donation_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="지금까지 4그루 후원하였습니다\n약 20,000원"
