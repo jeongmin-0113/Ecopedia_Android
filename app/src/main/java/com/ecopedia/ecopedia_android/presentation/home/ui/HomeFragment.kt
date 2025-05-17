@@ -6,12 +6,10 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -84,22 +82,22 @@ class HomeFragment :
 
     private fun observeCameraResult() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                homeViewModel.cameraResult.collect { result ->
-                    when (result) {
-                        is CameraResult.Success -> {
-                            mainViewModel.bitmap = result.data as Bitmap
-                            findNavController().navigate(R.id.action_homeFragment_to_saveCreatureFragment)
-                        }
-                        is CameraResult.Error -> {
-                            Toast.makeText(
-                                requireContext(),
-                                result.message ?: "이미지 처리 중 오류가 발생했습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        null -> {}
+            homeViewModel.cameraResult.collect { result ->
+                when (result) {
+                    is CameraResult.Success -> {
+                        mainViewModel.bitmap = result.data as Bitmap
+                        findNavController().navigate(R.id.action_homeFragment_to_saveCreatureFragment)
                     }
+
+                    is CameraResult.Error -> {
+                        Toast.makeText(
+                            requireContext(),
+                            result.message ?: "이미지 처리 중 오류가 발생했습니다.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    null -> {}
                 }
             }
         }

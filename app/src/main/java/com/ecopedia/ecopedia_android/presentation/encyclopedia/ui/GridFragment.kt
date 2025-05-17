@@ -1,24 +1,16 @@
 package com.ecopedia.ecopedia_android.presentation.encyclopedia.ui
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import com.ecopedia.ecopedia_android.R
-import com.ecopedia.ecopedia_android.data.source.remote.Item
 import com.ecopedia.ecopedia_android.databinding.FragmentGridBinding
 import com.ecopedia.ecopedia_android.presentation.encyclopedia.viewmodel.EncyclopediaViewModel
 import com.ecopedia.ecopedia_android.presentation.encyclopedia.viewmodel.ItemReceiveUiState
-import com.ecopedia.ecopedia_android.presentation.home.viewmodel.CameraResult
-import com.ecopedia.ecopedia_android.presentation.signup.viewmodel.SignUpUiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -58,19 +50,22 @@ class GridFragment : Fragment() {
         adapter!!.setData(loadData(itemType))
         binding.gridItemRv.adapter = adapter
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             encyclopediaViewModel.itemState.collect { result ->
                 when (result) {
                     is ItemReceiveUiState.Success -> {
                         adapter!!.setData(loadData(itemType))
                     }
+
                     is ItemReceiveUiState.Error -> {
                         Toast.makeText(
                             requireContext(),
                             result.message ?: "오류가 발생했습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else -> {
+                    }
+
+                    else -> {
 
                     }
                 }
@@ -84,15 +79,19 @@ class GridFragment : Fragment() {
         "all" -> {
             encyclopediaViewModel.itemList
         }
+
         "animals" -> {
             encyclopediaViewModel.itemList.filter { it.category == "ANIMALS" }
         }
+
         "plants" -> {
             encyclopediaViewModel.itemList.filter { it.category == "PLANTS" }
         }
+
         "insects" -> {
             encyclopediaViewModel.itemList.filter { it.category == "INSECTS" }
         }
+
         else -> {
             encyclopediaViewModel.itemList
         }
