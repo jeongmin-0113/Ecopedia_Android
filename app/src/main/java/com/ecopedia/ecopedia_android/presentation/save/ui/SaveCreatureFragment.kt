@@ -35,7 +35,7 @@ class SaveCreatureFragment :
         super.onViewCreated(view, savedInstanceState)
 
         mainViewModel.bitmap?.let { btm ->
-            binding.imageView.loadBitmapWithCoil3(btm)
+            binding.imageView.setImageBitmap(btm)
 
             binding.saveBtn.setOnClickListener {
                 saveViewModel.onSave(btm)
@@ -69,17 +69,4 @@ class SaveCreatureFragment :
             }
         }
     }
-
-    fun ImageView.loadBitmapWithCoil3(bitmap: Bitmap) {
-        val request = ImageRequest.Builder(this.context)
-            .data(bitmap)
-            .target { drawable ->
-                this.setImageBitmap(bitmap)
-
-            }
-            .build()
-
-        this.context.imageLoader.enqueue(request)
-    }
-
 }
