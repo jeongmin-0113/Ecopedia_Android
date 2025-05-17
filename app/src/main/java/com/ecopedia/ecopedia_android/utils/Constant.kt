@@ -1,0 +1,12 @@
+package com.ecopedia.ecopedia_android.utils
+
+object Constant {
+    const val X_ACCESS_TOKEN = "X_ACCESS_TOKEN"
+    const val X_REFRESH_TOKEN = "X_REFRESH_TOKEN"
+    const val TOKEN_HEADER = "Authorization"
+
+    const val BASE_URL = "http://.."
+
+    const val READ_TIME_OUT = 8000L
+    const val CONNECT_TIME_OUT = 8000L
+}
