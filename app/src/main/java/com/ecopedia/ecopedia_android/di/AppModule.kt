@@ -4,7 +4,9 @@ package com.ecopedia.ecopedia_android.di
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.ecopedia.ecopedia_android.data.repository.EncyclopediaRepository
 import com.ecopedia.ecopedia_android.data.source.local.TokenManager
+import com.ecopedia.ecopedia_android.data.source.remote.EncyclopediaService
 import com.ecopedia.ecopedia_android.data.source.remote.RequestInterceptor
 import com.ecopedia.ecopedia_android.data.source.remote.SampleService
 import com.ecopedia.ecopedia_android.data.source.remote.UserService
@@ -77,5 +79,11 @@ object AppModule {
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideEncyclopediaService(retrofit: Retrofit): EncyclopediaService {
+        return retrofit.create(EncyclopediaService::class.java)
     }
 }

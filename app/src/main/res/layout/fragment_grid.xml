@@ -7,7 +7,7 @@
     tools:context=".presentation.encyclopedia.ui.GridFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/whole_item_rv"
+        android:id="@+id/grid_item_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
