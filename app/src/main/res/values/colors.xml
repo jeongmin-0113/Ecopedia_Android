@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+    <color name="lightGreen">#FF05D686</color>
+    <color name="green">#FF06CC80</color>
+
+    <color name="red">#FFFF5C76</color>
+    <color name="blue">#FF3894FF</color>
+
+    <color name="lightGray30">#FFF7F7F7</color>
+    <color name="lightGray60">#FFBEBEBE</color>
+    <color name="lightGray90">#FF999999</color>
+
+    <color name="gray60">#FF666666</color>
+    <color name="gray90">#FF373737</color>
     <color name="black">#FF000000</color>
+
     <color name="white">#FFFFFFFF</color>
+
 </resources>
