@@ -2,6 +2,7 @@
 activityKtx = "1.7.2"
 agp = "8.10.0"
 coil = "2.5.0"
+coilNetwork = "3.2.0"
 coilSvg = "3.2.0"
 compiler = "4.14.2"
 datastorePreferences = "1.0.0"
@@ -44,6 +45,7 @@ androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fr
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationTesting" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version = "3.2.0" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetwork" }
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coilSvg" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
