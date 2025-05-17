@@ -2,6 +2,7 @@ package com.ecopedia.ecopedia_android.presentation.home.ui.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +47,8 @@ import com.ecopedia.ecopedia_android.data.datamodel.RecentCollected
 @Composable
 fun HomeScreen(
     homeData: HomeDataResult? = null,
-    onCameraClick: () -> Unit = {}
+    onCameraClick: () -> Unit = {},
+    onDonationBannerClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -69,7 +71,7 @@ fun HomeScreen(
             )
         }
         Spacer(modifier = Modifier.height(26.dp))
-        DonationCard()
+        DonationCard(onClick = { onDonationBannerClick() })
         Spacer(modifier = Modifier.height(21.dp))
         RecentList(
             list = homeData?.recentCollected ?: listOf()

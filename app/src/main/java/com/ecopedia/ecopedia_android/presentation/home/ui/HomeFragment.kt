@@ -67,13 +67,19 @@ class HomeFragment :
                         binding.composeView.setContent {
                             HomeScreen(
                                 homeData = homeData,
-                                onCameraClick = { launchCamera() }
+                                onCameraClick = { launchCamera() },
+                                onDonationBannerClick = { onDonationBannerClick() }
                             )
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun onDonationBannerClick() {
+        val bottomsheet = DonationFragment()
+        bottomsheet.show(childFragmentManager, bottomsheet.tag)
     }
 
     private fun observeCameraResult() {
