@@ -51,7 +51,7 @@ fun SignUpScreen(
 ) {
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
-    var isPasswordVaild by remember { mutableStateOf(true) }
+    var isPasswordValid by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
@@ -75,7 +75,7 @@ fun SignUpScreen(
             onPasswordChange = { passwordState = it }
         )
 
-        if (isPasswordVaild) {
+        if (isPasswordValid) {
             Spacer(Modifier.height(23.dp))
         } else {
             Text(
@@ -97,12 +97,12 @@ fun SignUpScreen(
                 /*todo: 회원가입 버튼 누르고 기능 구현*/
                 Log.d("signup", "$nicknameState, $passwordState")
                 // 비밀번호 필드 검사 - 영어랑 숫자만으로 이루어져있냐?
-                if (vaildatePassword(passwordState)) {
-                    isPasswordVaild = true
+                if (validatePassword(passwordState)) {
+                    isPasswordValid = true
                     // db에 회원 추가하라고 api 호출 (이때 sha256 인코딩)
                     // 바로 로그인
                 } else {
-                    isPasswordVaild = false
+                    isPasswordValid = false
                 }
             },
             text = "회원가입"
@@ -129,7 +129,7 @@ fun SignUpScreen(
 }
 
 
-fun vaildatePassword(
+fun validatePassword(
     passwordState: String
 ): Boolean {
     val regex = Regex("^[\\sa-zA-Z0-9]{8,20}$")
