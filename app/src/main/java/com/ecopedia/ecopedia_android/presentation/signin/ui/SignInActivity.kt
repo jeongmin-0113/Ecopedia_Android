@@ -2,31 +2,29 @@ package com.ecopedia.ecopedia_android.presentation.signin.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.navigation.NavController
-import com.ecopedia.ecopedia_android.R
-import com.ecopedia.ecopedia_android.databinding.ActivityMainBinding
-import com.ecopedia.ecopedia_android.databinding.ActivitySignInBinding
+import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
 import com.ecopedia.ecopedia_android.presentation.signin.ui.compose.SignInScreen
+import com.ecopedia.ecopedia_android.presentation.signin.viewmodel.SignInViewModel
 import com.ecopedia.ecopedia_android.presentation.signup.ui.SignUpActivity
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInActivity : ComponentActivity() {
-    private val binding by lazy { ActivitySignInBinding.inflate(layoutInflater) }
-    private var navController: NavController? = null
+    private val signInViewModel: SignInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContent {
+            val loginState = signInViewModel.loginState.collectAsState().value
             SignInScreen(
-                onClickSignUpButton = { onClickSignUpButton() }
+                onClickSignUpButton = { onClickSignUpButton() },
+                onLogin = { nickname, password ->
+                    signInViewModel.login(nickname, password)
+                },
+                loginState = loginState
             )
         }
     }

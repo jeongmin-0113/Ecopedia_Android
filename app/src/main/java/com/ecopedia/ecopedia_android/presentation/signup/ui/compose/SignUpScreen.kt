@@ -1,29 +1,23 @@
 package com.ecopedia.ecopedia_android.presentation.signup.ui.compose
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,27 +25,37 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ecopedia.ecopedia_android.R
 import com.ecopedia.ecopedia_android.base.compose.Pretendard
+import com.ecopedia.ecopedia_android.presentation.MainActivity
 import com.ecopedia.ecopedia_android.presentation.signin.ui.compose.CustomButton
 import com.ecopedia.ecopedia_android.presentation.signin.ui.compose.UserProfileInputField
+import com.ecopedia.ecopedia_android.presentation.signup.viewmodel.SignUpUiState
 
 @Composable
 fun SignUpScreen(
-    onClickGoBackButton: () -> Unit
+    onClickGoBackButton: () -> Unit,
+    onSignUp: (String, String) -> Unit,
+    signUpState: SignUpUiState
 ) {
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
     var isPasswordValid by remember { mutableStateOf(true) }
+    val context = LocalContext.current
+
+    LaunchedEffect(signUpState) {
+        if (signUpState is SignUpUiState.Success) {
+            onClickGoBackButton()
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -100,8 +104,7 @@ fun SignUpScreen(
                 if (validatePassword(passwordState)) {
                     isPasswordValid = true
 
-                    // db에 회원 추가하라고 api 호출 (이때 sha256 인코딩)
-                    // 바로 로그인
+                    onSignUp(nicknameState, passwordState)
                 } else {
                     isPasswordValid = false
                 }
@@ -144,5 +147,5 @@ fun validatePassword(
 @Preview
 @Composable
 fun SignUpPreview() {
-    SignUpScreen(onClickGoBackButton = {})
+    SignUpScreen(onClickGoBackButton = {}, onSignUp = { _, _ -> }, signUpState = SignUpUiState.Idle)
 }

@@ -1,7 +1,6 @@
 package com.ecopedia.ecopedia_android.presentation.signin.ui.compose
 
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,6 +20,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,18 +38,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import com.ecopedia.ecopedia_android.R
 import com.ecopedia.ecopedia_android.base.compose.Pretendard
-import com.ecopedia.ecopedia_android.presentation.signin.ui.SignInActivity
-import com.ecopedia.ecopedia_android.presentation.signup.ui.SignUpActivity
+import com.ecopedia.ecopedia_android.presentation.MainActivity
+import com.ecopedia.ecopedia_android.presentation.signin.viewmodel.LoginUiState
 
 @Composable
 fun SignInScreen(
-    onClickSignUpButton: () -> Unit
+    onClickSignUpButton: () -> Unit,
+    onLogin: (String, String) -> Unit,
+    loginState: LoginUiState
 ) {
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    LaunchedEffect(loginState) {
+        if (loginState is LoginUiState.Success) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+            if (context is android.app.Activity) {
+                context.finish()
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -76,17 +89,19 @@ fun SignInScreen(
         CustomButton(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
-            /*todo: 로그인 버튼 누르고 기능 구현*/
-                Log.d("login", "$nicknameState, $passwordState")
-                // api에 얘 회원맞냐고 확인 요청 (이때 비밀번호 sha256 인코딩)
-                // 맞으면 메인 이동 / 아니면 너 잘못된 입력이라고 알려야함
+                onLogin(nicknameState, passwordState)
             },
             text = "로그인"
         )
 
+        when (loginState) {
+            is LoginUiState.Loading -> Text("로그인 중...", color = Color.Gray)
+            is LoginUiState.Error -> Text(loginState.message, color = Color.Red)
+            else -> {}
+        }
+
         TextButton(
             onClick = {
-                /*todo: 회원가입 스크린으로 이동*/
                 onClickSignUpButton()
             }
         ) {
@@ -230,6 +245,8 @@ fun UserProfileInputFieldPreview() {
 @Composable
 fun SignInPreview() {
     SignInScreen(
-        onClickSignUpButton = {}
+        onClickSignUpButton = {},
+        onLogin = { _, _ -> },
+        loginState = LoginUiState.Idle
     )
 }
