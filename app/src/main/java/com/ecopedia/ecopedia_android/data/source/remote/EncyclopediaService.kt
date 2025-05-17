@@ -1,20 +1,41 @@
 package com.ecopedia.ecopedia_android.data.source.remote
 
 import com.ecopedia.ecopedia_android.base.BaseResponse
+import com.ecopedia.ecopedia_android.data.response.HomeDataResponse
+import okhttp3.MultipartBody
 import retrofit2.http.GET
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 
 interface EncyclopediaService {
     @GET("/book")
     suspend fun getAllItems(): ItemResponseDto
 
-    // 생물 추가
+    @GET("home")
+    suspend fun getHomeData()
+            : HomeDataResponse
 
-    // 사진 저장
+    @Multipart
+    @POST("/creature/validation")
+    suspend fun creatureValidation(
+        @Part file: MultipartBody.Part?,
+        @Part latitude: MultipartBody.Part,
+        @Part longitude: MultipartBody.Part,
+    ): BaseResponse
+
+    @Multipart
+    @POST("/creature/save")
+    suspend fun creatureSave(
+        @Part file: MultipartBody.Part?,
+        @Part latitude: MultipartBody.Part,
+        @Part longitude: MultipartBody.Part,
+    ): BaseResponse
 }
 
 data class ItemResponseDto(
     val result: List<Item>
-): BaseResponse()
+) : BaseResponse()
 
 data class Item(
     val category: String,

@@ -40,9 +40,12 @@ import com.ecopedia.ecopedia_android.base.compose.LightGray30
 import com.ecopedia.ecopedia_android.base.compose.LightGreen
 import com.ecopedia.ecopedia_android.base.compose.Pretendard
 import com.ecopedia.ecopedia_android.base.compose.UrlImage
+import com.ecopedia.ecopedia_android.data.datamodel.HomeDataResult
+import com.ecopedia.ecopedia_android.data.datamodel.RecentCollected
 
 @Composable
 fun HomeScreen(
+    homeData: HomeDataResult? = null,
     onCameraClick: () -> Unit = {}
 ) {
     Column(
@@ -56,20 +59,20 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(13.dp))
         HomeTopBar(onCameraClick = onCameraClick)
         Spacer(modifier = Modifier.height(15.dp))
-        PlantStatusCard(
-            title = "잘하고 있어요!",
-            subtitle = "묘목에 싹이 텄어요",
-            progress = 0.5f,
-            count = 3,
-            maxCount = 10
-        )
+        homeData?.plantStatus?.let {
+            PlantStatusCard(
+                title = "잘하고 있어요!",
+                subtitle = "묘목에 싹이 텄어요",
+                progress = it.nextTreeDonationProgress.toFloat(),
+                count = it.availableDonationTreeCount,
+                maxCount = 10
+            )
+        }
         Spacer(modifier = Modifier.height(26.dp))
         DonationCard()
         Spacer(modifier = Modifier.height(21.dp))
         RecentList(
-            imageUris = listOf(
-                "https://www.fitpetmall.com/wp-content/uploads/2023/10/shutterstock_529324609-1.png",
-            )
+            list = homeData?.recentCollected ?: listOf()
         )
     }
 }
@@ -125,9 +128,9 @@ fun CameraButton(
 fun PlantStatusCard(
     title: String = "잘하고 있어요!",
     subtitle: String = "묘목에 싹이 텄어요",
-    progress: Float = 0.5f, // 0.0 ~ 1.0
-    count: Int = 3,
-    maxCount: Int = 10
+    progress: Float = 0.0f, // 0.0 ~ 1.0
+    count: Int = 0,
+    maxCount: Int = 0
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -275,7 +278,7 @@ fun DonationCard(
 
 @Composable
 fun RecentList(
-    imageUris: List<String> = listOf<String>()
+    list: List<RecentCollected> = listOf<RecentCollected>()
 ) {
     Text(
         "최근 등록한 생물",
@@ -287,10 +290,10 @@ fun RecentList(
     Row(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        imageUris.take(3).forEach { uri ->
+        list.take(3).forEach { item ->
             UrlImage(
                 modifier = Modifier.clip(RoundedCornerShape(6.dp)),
-                url = uri,
+                url = item.imageUrl,
                 width = 104.dp,
                 height = 136.dp,
                 contentDescription = "최근 등록 생물"

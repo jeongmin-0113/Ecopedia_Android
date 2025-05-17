@@ -9,10 +9,23 @@
         android:id="@+id/homeFragment"
         android:name="com.ecopedia.ecopedia_android.presentation.home.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_saveCreatureFragment"
+            app:destination="@id/saveCreatureFragment" />
+    </fragment>
     <fragment
         android:id="@+id/encyclopediaFragment"
         android:name="com.ecopedia.ecopedia_android.presentation.encyclopedia.ui.EncyclopediaFragment"
         android:label="fragment_encyclopedia"
-        tools:layout="@layout/fragment_encyclopedia" />
+        tools:layout="@layout/fragment_encyclopedia" >
+        <action
+            android:id="@+id/action_encyclopediaFragment_to_saveCreatureFragment"
+            app:destination="@id/saveCreatureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/saveCreatureFragment"
+        android:name="com.ecopedia.ecopedia_android.presentation.save.ui.SaveCreatureFragment"
+        android:label="fragment_save_creature"
+        tools:layout="@layout/fragment_save_creature" />
 </navigation>
