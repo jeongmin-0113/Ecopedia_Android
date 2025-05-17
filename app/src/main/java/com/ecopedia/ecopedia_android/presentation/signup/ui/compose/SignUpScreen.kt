@@ -98,6 +98,7 @@ fun SignUpScreen(
                 Log.d("signup", "$nicknameState, $passwordState")
                 // 비밀번호 필드 검사 - 영어랑 숫자만으로 이루어져있냐?
                 if (vaildatePassword(passwordState)) {
+                    isPasswordVaild = true
                     // db에 회원 추가하라고 api 호출 (이때 sha256 인코딩)
                     // 바로 로그인
                 } else {
