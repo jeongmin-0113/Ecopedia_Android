@@ -44,7 +44,9 @@ import com.ecopedia.ecopedia_android.presentation.signin.ui.SignInActivity
 import com.ecopedia.ecopedia_android.presentation.signup.ui.SignUpActivity
 
 @Composable
-fun SignInScreen() {
+fun SignInScreen(
+    onClickSignUpButton: () -> Unit
+) {
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
 
@@ -72,9 +74,12 @@ fun SignInScreen() {
         Spacer(modifier = Modifier.height(15.dp))
 
         CustomButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
             /*todo: 로그인 버튼 누르고 기능 구현*/
                 Log.d("login", "$nicknameState, $passwordState")
+                // api에 얘 회원맞냐고 확인 요청 (이때 비밀번호 sha256 인코딩)
+                // 맞으면 메인 이동 / 아니면 너 잘못된 입력이라고 알려야함
             },
             text = "로그인"
         )
@@ -82,7 +87,7 @@ fun SignInScreen() {
         TextButton(
             onClick = {
                 /*todo: 회원가입 스크린으로 이동*/
-
+                onClickSignUpButton()
             }
         ) {
             Text(
@@ -104,7 +109,7 @@ fun UserProfileInputField(
     onPasswordChange: (String) -> Unit
 ) {
     Column(
-        modifier = Modifier.wrapContentSize(),
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -121,18 +126,19 @@ fun UserProfileInputField(
             textState = passwordState,
             onTextChange = onPasswordChange,
             isPassword = true,
-            maxLength = 8
+            maxLength = 20
         )
     }
 }
 
 @Composable
 fun CustomButton(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     text: String
 ) {
     Button(
-        modifier = Modifier
+        modifier = modifier
             .height(55.dp)
             .padding(horizontal = 42.dp)
             .fillMaxWidth(),
@@ -223,5 +229,7 @@ fun UserProfileInputFieldPreview() {
 @Preview
 @Composable
 fun SignInPreview() {
-    SignInScreen()
+    SignInScreen(
+        onClickSignUpButton = {}
+    )
 }

@@ -20,7 +20,13 @@ class SignUpActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
         setContent {
-            SignUpScreen()
+            SignUpScreen(
+                onClickGoBackButton = {onClickGoBackButton()}
+            )
         }
+    }
+
+    private fun onClickGoBackButton() {
+        finish()
     }
 }

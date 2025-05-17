@@ -8,15 +8,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -42,18 +46,22 @@ import com.ecopedia.ecopedia_android.presentation.signin.ui.compose.CustomButton
 import com.ecopedia.ecopedia_android.presentation.signin.ui.compose.UserProfileInputField
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(
+    onClickGoBackButton: () -> Unit
+) {
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
+    var isPasswordVaild by remember { mutableStateOf(true) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         Image(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             painter = painterResource(id = R.drawable.img_signin_logo),
             contentDescription = null
         )
@@ -67,21 +75,72 @@ fun SignUpScreen() {
             onPasswordChange = { passwordState = it }
         )
 
-        Spacer(modifier = Modifier.height(15.dp))
+        if (isPasswordVaild) {
+            Spacer(Modifier.height(23.dp))
+        } else {
+            Text(
+                "비밀번호는 8자 이상의 영어, 숫자로 이루어져야 합니다.",
+                style = TextStyle(
+                    fontSize = 13.sp,
+                    fontFamily = Pretendard,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xffFF5D77),
+                    textAlign = TextAlign.Start
+                ),
+                modifier = Modifier.padding(horizontal = 47.dp, vertical = 5.dp)
+            )
+        }
 
         CustomButton(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
-            /*todo: 회원가입 버튼 누르고 기능 구현*/
+                /*todo: 회원가입 버튼 누르고 기능 구현*/
                 Log.d("signup", "$nicknameState, $passwordState")
+                // 비밀번호 필드 검사 - 영어랑 숫자만으로 이루어져있냐?
+                if (vaildatePassword(passwordState)) {
+                    // db에 회원 추가하라고 api 호출 (이때 sha256 인코딩)
+                    // 바로 로그인
+                } else {
+                    isPasswordVaild = false
+                }
             },
             text = "회원가입"
+        )
+    }
+
+    IconButton(
+        onClick = {
+            /*todo: 뒤로가기 (다시 로그인페이지로 이동) 구현*/
+            Log.d("회원가입", "뒤로가기")
+            onClickGoBackButton()
+        },
+        modifier = Modifier
+            .wrapContentSize()
+            .absoluteOffset(0.dp, 0.dp)
+            .statusBarsPadding()
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_arrow_left),
+            tint = Color.Black,
+            contentDescription = null
         )
     }
 }
 
 
+fun vaildatePassword(
+    passwordState: String
+): Boolean {
+    val regex = Regex("^[\\sa-zA-Z0-9]{8,20}$")
+    if (regex.matches(passwordState)) {
+        return true
+    } else {
+        return false
+    }
+}
+
 @Preview
 @Composable
 fun SignUpPreview() {
-    SignUpScreen()
+    SignUpScreen(onClickGoBackButton = {})
 }
