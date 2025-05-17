@@ -4,6 +4,7 @@ import android.util.Log
 import com.ecopedia.ecopedia_android.data.source.local.TokenManager
 import com.ecopedia.ecopedia_android.data.source.remote.UserRequestDto
 import com.ecopedia.ecopedia_android.data.source.remote.UserService
+import com.ecopedia.ecopedia_android.presentation.home.viewmodel.Donation
 import com.ecopedia.ecopedia_android.utils.NetworkCallback
 import com.ecopedia.ecopedia_android.utils.isErrorSuspend
 import com.ecopedia.ecopedia_android.utils.isSuccessSuspend
@@ -40,5 +41,16 @@ class UserRepository @Inject constructor(
                 throw it
             }
     }.flowOn(Dispatchers.IO)
+
+    fun donation() = flow {
+        NetworkCallback(
+            service.donation()
+        ).processResponse()
+            .isSuccessSuspend {
+                emit(Donation(it.availableDonationTreeCount, it.donatedTrees, it.donationWon))
+            }.isErrorSuspend {
+                throw it
+            }
+    }
 
 }

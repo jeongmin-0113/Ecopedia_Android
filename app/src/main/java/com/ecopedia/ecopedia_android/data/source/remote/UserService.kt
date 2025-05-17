@@ -1,6 +1,7 @@
 package com.ecopedia.ecopedia_android.data.source.remote
 
 import com.ecopedia.ecopedia_android.base.BaseResponse
+import com.ecopedia.ecopedia_android.data.datamodel.DonationStatus
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -12,6 +13,9 @@ interface UserService {
     @POST("/signup") // 회원가입
     suspend fun signup(@Body request: UserRequestDto)
             : SignUpResponseDto
+
+    @POST("/donation/trees")
+    suspend fun donation(): DonationStatus
 }
 
 
