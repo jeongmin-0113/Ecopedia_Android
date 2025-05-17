@@ -1,5 +1,6 @@
 package com.ecopedia.ecopedia_android.presentation.signin.ui.compose
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -34,10 +35,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ecopedia.ecopedia_android.R
+import timber.log.Timber
 
 @Composable
 fun SignInScreen() {
-
+    Log.d("TEST", "컴포즈 들어옴")
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
 
