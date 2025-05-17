@@ -16,9 +16,9 @@ class HomeFragment :
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+            super.onViewCreated(view, savedInstanceState)
 
-        binding.composeView.setContent {
+            binding.composeView.setContent {
             HomeScreen(
                 onCameraClick = { /* TODO: 사진찍기 동작 */ }
             )
