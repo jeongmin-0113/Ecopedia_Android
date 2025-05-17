@@ -1,5 +1,6 @@
 package com.ecopedia.ecopedia_android.base.compose
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -66,6 +67,11 @@ fun UrlImage(
     val context = LocalContext.current
     AsyncImage(
         model = ImageRequest.Builder(context)
+            .listener(
+                onError = { request, result ->
+                    Log.e("ImageError", "Failed to load image: ${result.throwable}")
+                }
+            )
             .data(url)
             .build(),
         contentDescription = contentDescription,

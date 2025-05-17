@@ -68,8 +68,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(21.dp))
         RecentList(
             imageUris = listOf(
-                "https://example.com/image.jpg",
-                "https://example.com/image.jpg",
+                "https://www.fitpetmall.com/wp-content/uploads/2023/10/shutterstock_529324609-1.png",
             )
         )
     }
