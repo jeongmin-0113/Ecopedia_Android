@@ -2,10 +2,15 @@ package com.ecopedia.ecopedia_android.presentation.encyclopedia.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
+import androidx.compose.runtime.collectAsState
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.ecopedia.ecopedia_android.R
 import com.ecopedia.ecopedia_android.base.BaseFragment
 import com.ecopedia.ecopedia_android.databinding.FragmentEncyclopediaBinding
+import com.ecopedia.ecopedia_android.presentation.encyclopedia.viewmodel.EncyclopediaViewModel
+import com.ecopedia.ecopedia_android.presentation.signin.viewmodel.SignInViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,6 +20,7 @@ class EncyclopediaFragment :
         FragmentEncyclopediaBinding::bind,
         R.layout.fragment_encyclopedia
     ) {
+
 
     private val tabInfo: ArrayList<String> = arrayListOf("전체", "식물", "동물", "곤충")
 

@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.ecopedia.ecopedia_android.databinding.FragmentGridBinding
+import com.ecopedia.ecopedia_android.presentation.encyclopedia.viewmodel.EncyclopediaViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class GridFragment : Fragment() {
 
     companion object {
@@ -24,6 +29,7 @@ class GridFragment : Fragment() {
     private var itemType: String? = null
     private lateinit var binding: FragmentGridBinding
     private var adapter: GridItemAdapter? = null
+    private val encyclopediaViewModel: EncyclopediaViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,21 +43,27 @@ class GridFragment : Fragment() {
     ): View {
         binding = FragmentGridBinding.inflate(inflater, container, false)
         adapter = GridItemAdapter()
-        binding.wholeItemRv.adapter = adapter
-
-        loadData(itemType)
+        adapter!!.setData(loadData(itemType))
+        binding.gridItemRv.adapter = adapter
 
         return binding.root
     }
 
-    private fun loadData(type: String?) {
-        // 예: 전체, 동물, 식물, 곤충 등
-        // type 값에 따라 API 요청을 다르게 처리
-        when (type) {
-            "all" -> {}
-            "animals" -> {/* 동물만 */}
-            "plants" -> {/* 식물만 */}
-            "insects" -> {/* 곤충만 */}
+    private fun loadData(type: String?) = when (type) {
+        "all" -> {
+            encyclopediaViewModel.itemList
+        }
+        "animals" -> {
+            encyclopediaViewModel.itemList.filter { it.category == "ANIMALS" }
+        }
+        "plants" -> {
+            encyclopediaViewModel.itemList.filter { it.category == "PLANTS" }
+        }
+        "insects" -> {
+            encyclopediaViewModel.itemList.filter { it.category == "INSECTS" }
+        }
+        else -> {
+            encyclopediaViewModel.itemList
         }
     }
 }
