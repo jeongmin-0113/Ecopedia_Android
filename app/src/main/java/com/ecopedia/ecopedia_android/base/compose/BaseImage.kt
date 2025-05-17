@@ -6,11 +6,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.ColorPainter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
@@ -58,13 +59,21 @@ fun UrlImage(
     size: Dp? = null,
     width: Dp? = null,
     height: Dp? = null,
-    contentScale: ContentScale = ContentScale.Crop
+    placeholder: Painter? = ColorPainter(LightGray30),
+    error: Painter? = ColorPainter(LightGray30),
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
+    val context = LocalContext.current
     AsyncImage(
-        model = url,
+        model = ImageRequest.Builder(context)
+            .data(url)
+            .build(),
         contentDescription = contentDescription,
         contentScale = contentScale,
-        modifier = modifier.applySize(size, width, height)
+        modifier = modifier.applySize(size, width, height),
+        placeholder = placeholder,
+        error = error
+
     )
 }
 
@@ -85,3 +94,4 @@ fun DrawableImage(
         modifier = modifier.applySize(size, width, height)
     )
 }
+
