@@ -295,7 +295,7 @@ fun RecentList(
         list.take(3).forEach { item ->
             UrlImage(
                 modifier = Modifier.clip(RoundedCornerShape(6.dp)),
-                url = item.imageUrl,
+                url = item.imageUrl ?: "",
                 width = 104.dp,
                 height = 136.dp,
                 contentDescription = "최근 등록 생물"

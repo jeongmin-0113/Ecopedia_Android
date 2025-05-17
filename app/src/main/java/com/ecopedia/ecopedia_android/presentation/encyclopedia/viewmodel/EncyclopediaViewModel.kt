@@ -23,24 +23,24 @@ class EncyclopediaViewModel @Inject constructor(
     private val encyclopediaRepository: EncyclopediaRepository
 ): ViewModel() {
 
-    private val _itemState = MutableStateFlow<SignUpUiState>(SignUpUiState.Idle)
-    val itemState: StateFlow<SignUpUiState> = _itemState
+    private val _itemState = MutableStateFlow<ItemReceiveUiState>(ItemReceiveUiState.Idle)
+    val itemState: StateFlow<ItemReceiveUiState> = _itemState
     var itemList: MutableList<Item> = ArrayList<Item>()
 
     fun getAllItems() {
         viewModelScope.launch {
             encyclopediaRepository.getAllItems()
-                .onStart { _itemState.value = SignUpUiState.Loading }
-                .catch { e -> _itemState.value = SignUpUiState.Error(e.message ?: "아이템 가져오기 실패") }
+                .onStart { _itemState.value = ItemReceiveUiState.Loading }
+                .catch { e -> _itemState.value = ItemReceiveUiState.Error(e.message ?: "아이템 가져오기 실패") }
                 .collect {
-                    _itemState.value = SignUpUiState.Success
+                    _itemState.value = ItemReceiveUiState.Success
                     itemList = it.toMutableList()
                 }
         }
     }
 
     fun resetState() {
-        _itemState.value = SignUpUiState.Idle
+        _itemState.value = ItemReceiveUiState.Idle
     }
 }
 
