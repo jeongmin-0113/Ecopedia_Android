@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
@@ -26,20 +27,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastCbrt
 import com.ecopedia.ecopedia_android.R
-import timber.log.Timber
+import com.ecopedia.ecopedia_android.base.compose.Pretendard
 
 @Composable
 fun SignInScreen() {
-    Log.d("TEST", "컴포즈 들어옴")
     var nicknameState by remember { mutableStateOf("") }
     var passwordState by remember { mutableStateOf("") }
 
@@ -58,8 +61,8 @@ fun SignInScreen() {
         Spacer(modifier = Modifier.height(80.dp))
 
         UserProfileInputField(
-            nicknameState = "",
-            passwordState = "",
+            nicknameState = nicknameState,
+            passwordState = passwordState,
             onNicknameChange = { nicknameState = it },
             onPasswordChange = { passwordState = it }
         )
@@ -67,7 +70,10 @@ fun SignInScreen() {
         Spacer(modifier = Modifier.height(15.dp))
 
         CustomButton(
-            onClick = {/*todo: 로그인 버튼 누르고 기능 구현*/},
+            onClick = {
+            /*todo: 로그인 버튼 누르고 기능 구현*/
+                Log.d("login", "$nicknameState, $passwordState")
+            },
             text = "로그인"
         )
 
@@ -76,7 +82,10 @@ fun SignInScreen() {
         ) {
             Text(
                 text = "회원가입",
-                color = Color(0xffbebebe)
+                color = Color(0xffbebebe),
+                style = TextStyle(
+                    fontFamily = Pretendard
+                )
             )
         }
     }
@@ -97,13 +106,17 @@ fun UserProfileInputField(
         CustomTextField(
             placeholderMessage = "닉네임",
             textState = nicknameState,
-            onTextChange = onNicknameChange
+            onTextChange = onNicknameChange,
+            isPassword = false,
+            maxLength = 10
         )
         Spacer(modifier = Modifier.height(15.dp))
         CustomTextField(
             placeholderMessage = "비밀번호",
             textState = passwordState,
-            onTextChange = onPasswordChange
+            onTextChange = onPasswordChange,
+            isPassword = true,
+            maxLength = 8
         )
     }
 }
@@ -127,7 +140,7 @@ fun CustomButton(
             disabledContainerColor = Color.Gray
         )
     ) {
-        Text(text= text, style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold))
+        Text(text = text, style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold, fontFamily = Pretendard))
     }
 }
 
@@ -137,22 +150,24 @@ fun CustomTextField(
     placeholderMessage: String,
     textState: String,
     onTextChange: (String) -> Unit,
-    outlineColor: Color = Color(0xffF7F7F7)
+    outlineColor: Color = Color(0xffF7F7F7),
+    isPassword: Boolean = false,
+    maxLength: Int,
 ) {
     BasicTextField(
-        value = if (textState.isEmpty()) placeholderMessage else textState,
-        onValueChange = onTextChange,
+        value = textState,
+        onValueChange =  { if (it.length <= maxLength) onTextChange(it) },
         singleLine = true,
-        textStyle = if (textState.isEmpty()) {
-            TextStyle(
-                fontSize = 16.sp,
-                color = Color(0xff999999)
-            )
+        textStyle = TextStyle(
+            fontSize = 12.sp,
+            fontFamily = Pretendard,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Black
+        ),
+        visualTransformation = if (isPassword) {
+            PasswordVisualTransformation()
         } else {
-            TextStyle(
-                fontSize = 16.sp,
-                color = Color(0xffffffff)
-            )
+            VisualTransformation.None
         },
         modifier = Modifier.wrapContentSize(),
         decorationBox = { innerTextField ->
@@ -165,8 +180,23 @@ fun CustomTextField(
                     .padding(all = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                innerTextField()
+                if (textState.isEmpty()) {
+                    Text(
+                        text = placeholderMessage,
+                        fontSize = 12.sp,
+                        color = Color(0xFF909ba9),
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = Pretendard,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterVertically),
+                    )
+                } else {
+                    innerTextField()
+                }
             }
+
         },
     )
 }
