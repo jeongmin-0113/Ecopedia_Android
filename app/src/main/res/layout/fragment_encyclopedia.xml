@@ -38,12 +38,22 @@
         />
 
     <View
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/lightGray30"
-        app:layout_constraintTop_toBottomOf="@id/encyclopedia_tab_tl"/>
+        app:layout_constraintTop_toBottomOf="@id/encyclopedia_tab_tl" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/encyclopedia_content_vp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/encyclopedia_tab_tl" />
 
     <Button
+        android:id="@+id/encyclopedia_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30dp"
@@ -54,16 +64,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="40dp"
         android:backgroundTint="@color/lightGreen"/>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/encyclopedia_content_vp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/encyclopedia_tab_tl" />
 
 
 
