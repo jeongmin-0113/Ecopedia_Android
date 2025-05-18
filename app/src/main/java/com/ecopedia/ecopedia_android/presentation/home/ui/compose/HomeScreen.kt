@@ -3,29 +3,12 @@ package com.ecopedia.ecopedia_android.presentation.home.ui.compose
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,20 +19,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ecopedia.ecopedia_android.R
-import com.ecopedia.ecopedia_android.base.compose.DrawableImage
-import com.ecopedia.ecopedia_android.base.compose.LightGray30
-import com.ecopedia.ecopedia_android.base.compose.LightGreen
-import com.ecopedia.ecopedia_android.base.compose.Pretendard
-import com.ecopedia.ecopedia_android.base.compose.UrlImage
+import com.ecopedia.ecopedia_android.base.compose.*
 import com.ecopedia.ecopedia_android.data.datamodel.HomeDataResult
 import com.ecopedia.ecopedia_android.data.datamodel.RecentCollected
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     homeData: HomeDataResult? = null,
     onCameraClick: () -> Unit = {},
     onDonationBannerClick: () -> Unit = {}
 ) {
+    var showDonationSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -71,11 +54,26 @@ fun HomeScreen(
             )
         }
         Spacer(modifier = Modifier.height(26.dp))
-        DonationCard(onClick = { onDonationBannerClick() })
+        DonationCard(onClick = { showDonationSheet = true })
         Spacer(modifier = Modifier.height(21.dp))
         RecentList(
             list = homeData?.recentCollected ?: listOf()
         )
+    }
+
+    if (showDonationSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showDonationSheet = false },
+            sheetState = sheetState,
+            dragHandle = { BottomSheetDefaults.DragHandle() },
+            containerColor = Color.White,
+            scrimColor = Color.Black.copy(alpha = 0.32f)
+        ) {
+            DonationScreen(
+                onClose = { showDonationSheet = false },
+                onDonate = { showDonationSheet = false }
+            )
+        }
     }
 }
 
@@ -233,6 +231,9 @@ fun DonationCard(
         shape = RoundedCornerShape(20.dp),
         modifier = modifier
             .fillMaxWidth()
+            .clickable {
+                onClick()
+            }
             .height(170.dp)
     ) {
         Box(
